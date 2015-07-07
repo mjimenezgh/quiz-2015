@@ -1,0 +1,5 @@
+<form method="get" action="/quizes/answer">
+Pregunta <%= pregunta %>  
+<p><input type="text" name="respuesta" onfocus="javascript: forms[0].respuesta.value = '';">
+  <input type="submit" value="Enviar" onclick="javascript: if (forms[0].respuesta.value == '') { forms[0].respuesta.value = 'Responde aquí'; return false; }">
+</form>
