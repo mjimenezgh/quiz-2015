@@ -2,12 +2,13 @@
 <input type="text" id="preg" name="quiz[pregunta]" value="<%= quiz.pregunta %>" />
 <p><label for="resp" class="rem">Respuesta: </label>
 <input type="text" id="resp" name="quiz[respuesta]" value="<%= quiz.respuesta %>" />
+<%  console.log('quiz.tema: ' + quiz.tema); %>
 <p><label for="tem">Indice temático: </label><select id="tem" name="quiz[tema]">
-  <option value="otro">Otro
-  <option value="humanidades">Humanidades
-  <option value="ocio">Ocio
-  <option value="ciencia">Ciencia
-  <option value="tecnologia">Tecnología
+  <option value="otro" <%= (quiz.tema == 'otro') ? 'selected' : '' %> >Otro
+  <option value="humanidades" <%= (quiz.tema == 'humanidades') ? 'selected' : '' %> >Humanidades 
+  <option value="ocio" <%= (quiz.tema == 'ocio') ? 'selected' : '' %> >Ocio
+  <option value="ciencia" <%= (quiz.tema == 'ciencia') ? 'selected' : '' %> >Ciencia
+  <option value="tecnologia" <%= (quiz.tema == 'tecnologia') ? 'selected' : '' %> >Tecnología
 </select>
 <p><a href="/quizes"><button type="button">Cancelar</button></a>
 <input type="submit" value="Guardar">
