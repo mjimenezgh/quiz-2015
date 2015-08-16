@@ -37,6 +37,23 @@ app.use(function(req, res, next) {
     next();
 });
 
+// tiempo de sesión
+app.use(function(req, res, next) {
+    if (req.session.user) {
+	if (! req.session.user.updated) {
+	    req.session.user.updated = Date.now();
+	} else {
+	    if ((Date.now() - req.session.user.updated) > 120000) {
+		console.log('auto logout');
+		req.session.user = null;
+	    } else {
+		req.session.user.updated = Date.now();
+	    }
+	}
+    }
+    next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
