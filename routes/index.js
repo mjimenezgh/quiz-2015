@@ -37,9 +37,11 @@ router.delete('/quizes/:quizId(\\d+)',
 	      sessionController.loginRequired,
 	      quizController.destroy);
 
+
 router.get('/author', function(req, res) {
     res.render('author', { errors: [] });
 });
+
 
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentController.create);

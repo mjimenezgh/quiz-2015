@@ -17,10 +17,20 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes
 exports.index = function(req, res) {
-    models.Quiz.findAll().then(function(quizes) {
-	res.render('quizes/index', { quizes: quizes, errors: [] });
-    }).catch(function(error) { next(error); });
+    if (req.query.search) {
+	console.log('search: ' + req.query.search.trim().replace(/\s/g, '%'));
+	models.Quiz.findAll({ where: { pregunta: { like: '%' + req.query.search.trim().replace(/\s/g, '%') + '%' }},
+			      order: 'pregunta' }).then(function(quizes) {
+	    console.log('quizes: ' + quizes);
+	    res.render('quizes/index', { quizes: quizes, errors: [] });
+	});
+    } else {
+	models.Quiz.findAll().then(function(quizes) {
+	    res.render('quizes/index', { quizes: quizes, errors: [] });
+	}).catch(function(error) { next(error); });
+    }
 };
+
 
 // GET /quizes/:quizId
 exports.show = function(req, res) {
