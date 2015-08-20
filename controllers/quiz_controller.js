@@ -18,10 +18,8 @@ exports.load = function(req, res, next, quizId) {
 // GET /quizes
 exports.index = function(req, res) {
     if (req.query.search) {
-	console.log('search: ' + req.query.search.trim().replace(/\s/g, '%'));
 	models.Quiz.findAll({ where: { pregunta: { like: '%' + req.query.search.trim().replace(/\s/g, '%') + '%' }},
 			      order: 'pregunta' }).then(function(quizes) {
-	    console.log('quizes: ' + quizes);
 	    res.render('quizes/index', { quizes: quizes, errors: [] });
 	});
     } else {
@@ -108,3 +106,30 @@ exports.destroy = function(req, res) {
 	res.redirect('/quizes');
     }).catch(function(error) { next(error); });
 };
+
+// GET /quizes/statistics
+exports.statistics = function(req, res) {
+    models.Quiz.count().then(function(count) {
+	req.stats = new Object;
+	req.stats.quizes = new Object;
+	req.stats.quizes.count = count;
+	models.Comment.count().then(function(count) {
+	    req.stats.comments = new Object;
+	    req.stats.comments.count = count;
+	    models.Quiz.findAll({ include: [{ model: models.Comment }] }).then(function(quizes) {
+		req.stats.without_comments = 0;
+		req.stats.with_comments = 0;
+		for (i in quizes) {
+		    if (quizes[i].Comments.length == 0) {
+			req.stats.without_comments++;
+		    } else {
+			req.stats.with_comments++;
+		    }
+		}
+		res.render('quizes/statistics', { stats: req.stats, errors: [] });
+	    });
+
+	});
+    });
+}
+			    

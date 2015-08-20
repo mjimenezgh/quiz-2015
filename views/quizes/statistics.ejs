@@ -1,0 +1,11 @@
+<h2>Estadísticas:</h2>
+
+<p>Número de preguntas: <%= stats.quizes.count %>
+<p>Número de comentarios: <%= stats.comments.count %>
+<p>Media de comentarios por pregunta: <%= stats.comments.count / stats.quizes.count %>
+<p>Número de preguntas sin comentarios: <%= stats.without_comments %>
+<p>Número de preguntas con comentarios: <%= stats.with_comments %>
+
+
+
+
